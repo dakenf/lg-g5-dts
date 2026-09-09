@@ -1,0 +1,17 @@
+.cache/
+build/
+inputs/*
+!inputs/README.md
+*.o
+*.mod
+*.mod.c
+*.cmd
+*.order
+Module.symvers
+*.ko
+!prebuilt/**/*.ko
+__pycache__/
+*.pyc
+*.key
+*.pem
+.env

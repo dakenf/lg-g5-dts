@@ -1,0 +1,58 @@
+{
+  "kernel_sha256": "91f58f1471d21d6d5190e0d95b53764edbbf527ddb3ee13f478482141127239c",
+  "runtime_base": "0xffffffc010088000",
+  "addresses": {
+    "DTS_SET_OUTPUT": "0xffffffc010f5d240",
+    "DTS_ADEC1_CODEC": "0xffffffc01264ceb4",
+    "DTS_ADEC1_OPEN": "0xffffffc01264cea8",
+    "DTS_ADEC1_STARTED": "0xffffffc01264ceaa"
+  },
+  "checks": {
+    "set_output": {
+      "file_offset": "0xed5240",
+      "runtime": "0xffffffc010f5d240",
+      "hex": "ffc302d1fd7b03a9fdc30091f35304a9f303002af55b05a9761c0012f76306a9981c0012f96b07a9f903022afb7308a9fc0301aa201440b921c440391f002071"
+    },
+    "output_set_format": {
+      "file_offset": "0xeb3a00",
+      "runtime": "0xffffffc010f3ba00",
+      "hex": "ff8301d1e703012afd7b02a9fd830091f65f04a9369b00d0971c0012c52a4cb9f45703a9f50300aaf403022ae502f837a22e40b9a55600d0a5401691f40300b9"
+    },
+    "alsa_decoder_codec": {
+      "file_offset": "0xecd920",
+      "runtime": "0xffffffc010f55920",
+      "hex": "ffc301d1fd7b01a9fd430091f96b05a9999a00b0207349b9f35302a9f30301aaf55b03a92017f837678644a9f45500d0602e40f994a23b91e10300a986023391"
+    },
+    "earc_format_select": {
+      "file_offset": "0xed3840",
+      "runtime": "0xffffffc010f5b840",
+      "hex": "fd7bb4a9fd030091f35301a993b700b073c23d91f40302aa820880d2f55b02a9f60300aae0f30191f76303a9f70301aa01008052f96b04a9fb7305a961270e94"
+    },
+    "register_break": {
+      "file_offset": "0x6604",
+      "runtime": "0xffffffc01008e604",
+      "hex": "fd7bbea9fd030091f35301a9941601d094e20191f30300aae00314aa54804a9420f800d000600191e10300aa228c43f8620600a933fc9fc8530400f9e00314aa"
+    },
+    "unregister_break": {
+      "file_offset": "0x6654",
+      "runtime": "0xffffffc01008e654",
+      "hex": "fd7bbea9fd030091f35301a9f30300aa941601d094e20191e00314aa40804a94620640a9410400f9432480d2e00314aaa3d5fbf2220000f9630600f9c47e4a94"
+    },
+    "break_dispatch": {
+      "file_offset": "0x5b60",
+      "runtime": "0xffffffc01008db60",
+      "hex": "038440f924f800f08460019182e0009184a000917f0c40f28400829a820040f99f0002eb40020054060080d21f2003d543344079453040792300230abf20236b"
+    },
+    "kprobe_break": {
+      "file_offset": "0x12a78c0",
+      "runtime": "0xffffffc01132f8c0",
+      "hex": "fd7bbaa9fd030091f35301a9746100b094621e91f55b02a9364a0090d6621891f76303a993220091f70314aaf96b04a9fa0300aafb2b00f9158040f971c2c897"
+    },
+    "kprobe_step": {
+      "file_offset": "0x12a77b0",
+      "runtime": "0xffffffc01132f7b0",
+      "hex": "fd7bbea9fd030091f35301a9f40300aac0c2c897c26200f042003f91736100b073621e9173220091405860f87302008b601240f9200100b4621640f920008052"
+    }
+  },
+  "status": "revision 2: temporary missing-break-handler registration and isolated self-test"
+}

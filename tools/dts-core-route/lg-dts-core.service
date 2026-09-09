@@ -1,0 +1,13 @@
+[Unit]
+Description=Scoped LG G5 DTS core and DTS-HD/X eARC support
+# Supervisor checks readiness; no ordering edge to the service it resets.
+ConditionPathExists=/var/lib/lg-dts-core/enabled
+
+[Service]
+Type=simple
+ExecStart=/bin/sh /var/lib/lg-dts-core/watch.sh
+KillMode=mixed
+TimeoutStopSec=30
+Restart=no
+StandardOutput=journal
+StandardError=journal

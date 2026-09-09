@@ -1,0 +1,11 @@
+#!/bin/sh
+# webOSbrew startup hook; all payload stays on writable /var.
+set -eu
+base=/var/lib/lg-dts-core
+[ -f "$base/enabled" ] || exit 0
+[ "$(uname -r)" = '5.4.268-329.ptl4tv.5' ] || exit 0
+cd "$base"
+sha256sum -c SHA256SUMS || exit 1
+cp lg-dts-core.service /run/systemd/system/lg-dts-core.service
+systemctl daemon-reload
+systemctl start lg-dts-core.service
