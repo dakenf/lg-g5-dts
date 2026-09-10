@@ -5,9 +5,12 @@ ConditionPathExists=/var/lib/lg-dts-core/enabled
 
 [Service]
 Type=simple
+ExecStartPre=/usr/bin/python3 /var/lib/lg-dts-core/config-override.py ensure
 ExecStart=/bin/sh /var/lib/lg-dts-core/watch.sh
+ExecStopPost=/usr/bin/python3 /var/lib/lg-dts-core/config-override.py restore
+TimeoutStartSec=150
 KillMode=mixed
-TimeoutStopSec=30
+TimeoutStopSec=60
 Restart=no
 StandardOutput=journal
 StandardError=journal

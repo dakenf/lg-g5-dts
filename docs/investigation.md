@@ -10,7 +10,7 @@ The installed G5 33.30.80 libraries differed from those comparison images, but r
 
 ### Required configuration prerequisite
 
-This override preceded the successful module tests. **The module installer and boot hook do not set it.** On a fresh rooted installation, apply and verify it separately before expecting the same result. The key belongs to configd's volatile model database; do not assume it survives reboot. This remains a limitation of the current permanent-service packaging.
+This override preceded the successful module tests. The current service now applies it automatically through `config-override.py` before starting the watcher; see [boot persistence](boot-persistence.md). The commands below record the original manual procedure. The key belongs to configd's volatile model database, so persistence means reapplying it after boot rather than changing factory provisioning.
 
 Run these commands inside an interactive root SSH session (`ssh -t root@YOUR_TV_IP`), recording the original response first:
 
@@ -21,7 +21,7 @@ luna-send -n 1 -f luna://com.webos.service.config/getConfigs '{"configNames":["t
 systemctl restart arccontroller.service
 ```
 
-Require `returnValue: true` and a readback of `TrueHD+dts`; an empty non-PTY response is inconclusive. Root access does not universally bypass Luna permissions on another release. Select HDMI3 bitstream input, eARC enabled, and digital sound output **Pass Through** in the TV UI. Renegotiate/restart source playback if it caches EDID. If reboot resets the key, repeat the override and ARC restart before playback. Automatic persistent management of this volatile override has not been implemented or validated here.
+Require `returnValue: true` and a readback of `TrueHD+dts`; an empty non-PTY response is inconclusive. Root access does not universally bypass Luna permissions on another release. Select HDMI3 bitstream input, eARC enabled, and digital sound output **Pass Through** in the TV UI. Renegotiate/restart source playback if it caches EDID. When manually running the older package, repeat the override and ARC restart after reboot if the key resets. The new automatic initializer has offline tests and an on-device read-only query check, but awaits deployment and a real reboot test.
 
 The original tested value was `TrueHD`. Restore your recorded value with the same setter and restart ARC control when undoing the prerequisite. The project's setter did not change the hash of `/var/preferences/configd_db.json`; no factory bits were edited. The TV's digital output setting is a separate persistent user preference.
 

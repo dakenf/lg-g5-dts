@@ -18,7 +18,7 @@ else:
  mods=[(R/'tools/dts-core-route/dts_core_route.ko','dts_core_route.ko'),(R/'tools/dts-kernel-probe/dts_gate.ko','dts_gate.ko'),(R/'tools/dts-hd-route/dts_core_route.ko','hd/dts_core_route.ko')]
 for src,n in mods:shutil.copyfile(src,b/n)
 shutil.copyfile(b/'dts_gate.ko',b/'hd/dts_gate.ko')
-for n in ['run-on-tv.sh','watch.sh','control.sh','lg-dts-core.service','90-lg-dts-core']:shutil.copyfile(R/'tools/dts-core-route'/n,b/n)
+for n in ['config-override.py','run-on-tv.sh','watch.sh','control.sh','lg-dts-core.service','90-lg-dts-core']:shutil.copyfile(R/'tools/dts-core-route'/n,b/n)
 shutil.copyfile(R/'tools/dts-hd-route/run-on-tv.sh',b/'hd/run-on-tv.sh')
 shutil.copyfile(R/'scripts/install-on-tv.sh',b/'install.sh')
 (b/'manifest.json').write_text(json.dumps({'target':'OLED77G5RLA 33.30.80','kernel':'5.4.268-329.ptl4tv.5','input':'HDMI3','output':'eARC','origin':'tested binaries' if a.prebuilt else 'local build'},indent=2)+'\n')

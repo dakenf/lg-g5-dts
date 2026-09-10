@@ -7,6 +7,9 @@ cd "$(dirname "$0")"
 [ "$(uname -r)" = '5.4.268-329.ptl4tv.5' ]
 [ -f /var/lib/webosbrew/startup.sh ]
 sha256sum -c SHA256SUMS
+for command in /usr/bin/python3 /usr/bin/script /usr/bin/timeout /usr/bin/luna-send /bin/systemctl; do
+ [ -x "$command" ] || { echo "Missing prerequisite: $command" >&2; exit 1; }
+done
 base=/var/lib/lg-dts-core
 stage=/var/lib/lg-dts-stage-$$
 backup=/var/lib/lg-dts-backup-$(date +%s)-$$

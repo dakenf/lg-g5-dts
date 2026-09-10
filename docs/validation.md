@@ -9,7 +9,7 @@ On OLED77G5RLA 33.30.80 with Ugoos SK1 on HDMI3 and Q950A over eARC:
 - HD revision 2 preserved non-PCM event7, fixed its invalid codec-name lookup, and passed the low-level format guard. User heard sound and explicitly observed **DTS:X** on the receiver display.
 - Final combined supervisor was installed, active with an HD session, and passed live stop/start after correcting a systemd ordering deadlock.
 - The earlier boot-hook mechanism was exercised; reboot of the final combined package, long-duration playback and exhaustive format/source transitions remain unverified.
-- Configuration `tv.model.edidType=TrueHD+dts` and digital Pass Through were set before the successful tests. The volatile model override is a manual prerequisite and is not made persistent by this package.
+- Configuration `tv.model.edidType=TrueHD+dts` and digital Pass Through were set before the successful tests. The newer service reapplies the volatile override at startup; this addition has not yet been deployed/reboot-tested.
 
 Receiver HTTP queries did not yield a reliable active-codec field. The brief front-display indication was the decisive DTS:X confirmation. An earlier audible “TrueHD” test was actually EAC3 at the TV; it is not counted as verified TrueHD passthrough.
 
@@ -17,13 +17,13 @@ Receiver HTTP queries did not yield a reliable active-codec field. The brief fro
 
 A fresh upstream Linux 5.4.268 tree with the pinned archive and checked-in config successfully built all three modules using Clang 21.1.8. The preparation-only build emits a missing Module.symvers warning; actual vendor export/ABI auditing is a separate check.
 
-`bash scripts/test.sh` exercises the exhaustive core scope predicate and 8 core + 9 HD mocked controller lifecycle scenarios. The firmware-dependent suite verifies stock module layout/imports, executes the original routing branch, and emulates the HD callback failure and corrected path. Tests do not simulate the real DSP or guarantee acoustic output. Freshly built binaries have not been separately loaded on the TV during repository preparation.
+`bash scripts/test.sh` exercises the exhaustive core scope predicate, 12 boot-configuration/rollback scenarios, and 8 core + 9 HD mocked controller lifecycle scenarios. The new helper successfully queried the real TV through its terminal wrapper without changing state. The firmware-dependent suite verifies stock module layout/imports, executes the original routing branch, and emulates the HD callback failure and corrected path. Tests do not simulate the real DSP or guarantee acoustic output. Freshly built binaries have not been separately loaded on the TV during repository preparation.
 
 The package script is local-only and uses an explicit file list. Its checksums cover modules, controllers, unit, startup hook, installer and manifest. The standalone installer is new reproduction tooling; syntax/package tests do not establish a new on-device installation test. The already-working TV was not changed to prepare this repository.
 
 ## Runtime files
 
-Payload: `/var/lib/lg-dts-core`, with HD files in `hd/`. Startup: `/var/lib/webosbrew/init.d/90-lg-dts-core`. Unit: `/run/systemd/system/lg-dts-core.service`. The `enabled` marker controls startup; `control.sh disable` removes it and stops the service.
+Payload: `/var/lib/lg-dts-core`, with HD files in `hd/`. Startup: `/var/lib/webosbrew/init.d/90-lg-dts-core`. Unit: `/run/systemd/system/lg-dts-core.service`. The `enabled` marker controls startup; `control.sh disable` removes it and stops the service. The new service runs the configuration helper before starting and restores its journaled override after stopping, including failed startup.
 
 Diagnostics: `/tmp/lg-dts.log` and `/tmp/dts-core-test-*` or `/tmp/dts-hd-test-*`. Supervised session snapshots overwrite the latest sample instead of accumulating one file per second. Separate session directories can still accumulate across many sessions until reboot. `/var/log/dbg-log` was useful for LG service diagnostics on the tested image; systemd journal content was not consistently available. Do not interpret absent journal messages as successful cleanup.
 

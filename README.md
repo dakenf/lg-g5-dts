@@ -22,9 +22,9 @@ The present watcher handles HDMI3 → eARC only. Internal TV app passthrough, ot
 
 ## Install the tested binaries
 
-Prerequisites: the exact tested firmware, a rooted TV with working SSH, webOSbrew startup at `/var/lib/webosbrew/startup.sh`, and the usual TV tools (`amixer`, `devmem`, `insmod`, `rmmod`, `systemctl`). Rooting is a separate prerequisite; no exploit or credentials are included. Enable eARC and digital sound passthrough in the TV, and bitstream passthrough on the player. The source must send DTS: the watcher detects a received DTS stream before starting its session. A cached source capability list may require playback or HDMI renegotiation; forcing DTS on the source was used during investigation.
+Prerequisites: the exact tested firmware, a rooted TV with working SSH, webOSbrew startup at `/var/lib/webosbrew/startup.sh`, and the usual TV tools (`amixer`, `devmem`, `insmod`, `rmmod`, `systemctl`, Python 3, util-linux `/usr/bin/script`, and `/usr/bin/timeout`). Rooting is a separate prerequisite; no exploit or credentials are included. Enable eARC and digital sound passthrough in the TV, and bitstream passthrough on the player. The source must send DTS: the watcher detects a received DTS stream before starting its session. A cached source capability list may require playback or HDMI renegotiation; forcing DTS on the source was used during investigation.
 
-First apply and verify the **required `TrueHD+dts` configuration override** using [these commands](docs/investigation.md#required-configuration-prerequisite). The installer does not set this volatile key; recheck it after reboot.
+The service automatically reapplies and verifies the volatile `TrueHD+dts` configuration at startup, then refreshes ARC capabilities before starting the DTS watcher. See [boot persistence](docs/boot-persistence.md) for ordering, rollback, and reboot validation. The original manual commands remain documented for investigation.
 
 On your Linux workstation:
 
@@ -57,7 +57,7 @@ ssh "root@$TV_HOST" 'sh /var/lib/lg-dts-core/control.sh enable'
 
 Cleanup restores saved DSP/ALSA state, unloads hooks and the gate, and restarts input integration. This can briefly interrupt HDMI. Unexpected session errors stop the supervisor instead of repeatedly applying a failed patch. If installation/startup fails, inspect the session log and disable it; the installer retains the previous directory but does not automatically restore it. See [recovery](docs/validation.md#recovery).
 
-The combined core/HD service passed live start/stop checks. Its boot mechanism was exercised earlier, but **a reboot of the final combined package has not yet been verified**.
+The earlier combined core/HD service passed live start/stop checks. Automatic EDID initialization has since been added and tested with mocks; its read-only query was verified on the TV. **The updated service has not yet been deployed or reboot-tested.**
 
 ## Build from source
 
@@ -95,6 +95,7 @@ The fix needed more than announcing DTS in capabilities: the G5 rejected routing
 
 - [Investigation and architecture](docs/investigation.md): the successful path, failed approaches, addresses, and why each patch exists.
 - [Porting guide](docs/porting.md): firmware acquisition, address/ABI recovery, another model or software version, staged hardware tests, and emulation limits.
+- [Boot persistence](docs/boot-persistence.md): automatic EDID initialization and reboot checks.
 - [Validation and recovery](docs/validation.md): evidence, limitations, service behavior, and restoring a previous installation.
 - [AGENTS.md](AGENTS.md): instructions for an agent continuing the project.
 
