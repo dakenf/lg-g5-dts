@@ -17,7 +17,7 @@ The unit has no ordering dependency on the services it synchronously restarts. C
 
 ## Install and verify
 
-Build the updated package with `python3 scripts/package.py --prebuilt` and use the README installer instructions. Installing restarts the service and ARC capabilities, so use a playback test window. Reboot only when ready to interrupt the TV. This update has **not yet been installed on the project TV or reboot-tested**.
+Build the updated package with `python3 scripts/package.py --prebuilt` and use the README installer instructions. Installing restarts the service and ARC capabilities, so use a playback test window. Reboot only when ready to interrupt the TV. This update was installed on the project TV without rebooting. The startup initializer exited successfully, the key read back as `TrueHD+dts`, ARC and the watcher were active, and payload checksums and the enabled boot hook passed. The boot ID was unchanged. Because the key was already enabled, this validates startup/ARC refresh, not the setter after a real reboot. **Reboot validation remains pending.**
 
 After installation, check service status and the verified setting:
 

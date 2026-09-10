@@ -57,7 +57,7 @@ ssh "root@$TV_HOST" 'sh /var/lib/lg-dts-core/control.sh enable'
 
 Cleanup restores saved DSP/ALSA state, unloads hooks and the gate, and restarts input integration. This can briefly interrupt HDMI. Unexpected session errors stop the supervisor instead of repeatedly applying a failed patch. If installation/startup fails, inspect the session log and disable it; the installer retains the previous directory but does not automatically restore it. See [recovery](docs/validation.md#recovery).
 
-The earlier combined core/HD service passed live start/stop checks. Automatic EDID initialization has since been added and tested with mocks; its read-only query was verified on the TV. **The updated service has not yet been deployed or reboot-tested.**
+The earlier combined core/HD service passed live start/stop checks. Automatic EDID initialization has since been installed and started successfully on the TV: config readback, ARC service, payload checksums and boot hook were verified. The key was already enabled during this installation. **A real reboot and startup from the reset configuration remain untested.**
 
 ## Build from source
 

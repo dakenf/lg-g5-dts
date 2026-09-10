@@ -21,7 +21,7 @@ luna-send -n 1 -f luna://com.webos.service.config/getConfigs '{"configNames":["t
 systemctl restart arccontroller.service
 ```
 
-Require `returnValue: true` and a readback of `TrueHD+dts`; an empty non-PTY response is inconclusive. Root access does not universally bypass Luna permissions on another release. Select HDMI3 bitstream input, eARC enabled, and digital sound output **Pass Through** in the TV UI. Renegotiate/restart source playback if it caches EDID. When manually running the older package, repeat the override and ARC restart after reboot if the key resets. The new automatic initializer has offline tests and an on-device read-only query check, but awaits deployment and a real reboot test.
+Require `returnValue: true` and a readback of `TrueHD+dts`; an empty non-PTY response is inconclusive. Root access does not universally bypass Luna permissions on another release. Select HDMI3 bitstream input, eARC enabled, and digital sound output **Pass Through** in the TV UI. Renegotiate/restart source playback if it caches EDID. When manually running the older package, repeat the override and ARC restart after reboot if the key resets. The new automatic initializer has offline tests and passed installation/live startup with the key already enabled. A real reboot and reset-key initialization test remain pending.
 
 The original tested value was `TrueHD`. Restore your recorded value with the same setter and restart ARC control when undoing the prerequisite. The project's setter did not change the hash of `/var/preferences/configd_db.json`; no factory bits were edited. The TV's digital output setting is a separate persistent user preference.
 

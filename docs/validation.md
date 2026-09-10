@@ -9,7 +9,7 @@ On OLED77G5RLA 33.30.80 with Ugoos SK1 on HDMI3 and Q950A over eARC:
 - HD revision 2 preserved non-PCM event7, fixed its invalid codec-name lookup, and passed the low-level format guard. User heard sound and explicitly observed **DTS:X** on the receiver display.
 - Final combined supervisor was installed, active with an HD session, and passed live stop/start after correcting a systemd ordering deadlock.
 - The earlier boot-hook mechanism was exercised; reboot of the final combined package, long-duration playback and exhaustive format/source transitions remain unverified.
-- Configuration `tv.model.edidType=TrueHD+dts` and digital Pass Through were set before the successful tests. The newer service reapplies the volatile override at startup; this addition has not yet been deployed/reboot-tested.
+- Configuration `tv.model.edidType=TrueHD+dts` and digital Pass Through were set before the successful tests. The newer service reapplies the volatile override at startup; installation and live initialization passed without reboot; the already-enabled key read back correctly, ARC and the watcher were active, and payload checksums and boot-hook checks passed. Actual reboot/reset-key initialization remains untested.
 
 Receiver HTTP queries did not yield a reliable active-codec field. The brief front-display indication was the decisive DTS:X confirmation. An earlier audible “TrueHD” test was actually EAC3 at the TV; it is not counted as verified TrueHD passthrough.
 
@@ -19,7 +19,7 @@ A fresh upstream Linux 5.4.268 tree with the pinned archive and checked-in confi
 
 `bash scripts/test.sh` exercises the exhaustive core scope predicate, 12 boot-configuration/rollback scenarios, and 8 core + 9 HD mocked controller lifecycle scenarios. The new helper successfully queried the real TV through its terminal wrapper without changing state. The firmware-dependent suite verifies stock module layout/imports, executes the original routing branch, and emulates the HD callback failure and corrected path. Tests do not simulate the real DSP or guarantee acoustic output. Freshly built binaries have not been separately loaded on the TV during repository preparation.
 
-The package script is local-only and uses an explicit file list. Its checksums cover modules, controllers, unit, startup hook, installer and manifest. The standalone installer is new reproduction tooling; syntax/package tests do not establish a new on-device installation test. The already-working TV was not changed to prepare this repository.
+The package script is local-only and uses an explicit file list. Its checksums cover modules, controllers, unit, startup hook, installer and manifest. The standalone installer is new reproduction tooling; syntax/package tests do not establish a new on-device installation test. The standalone installer subsequently completed successfully on the project TV to deploy the boot-persistence update, without rebooting.
 
 ## Runtime files
 
